@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Файлы</title>
+</head>
+<body>
+    <h1>Загруженные файлы</h1>
+    <ul>
+        {% for file in files %}
+            <li><a href="{{ file.file.url }}">{{ file.title }}</a></li>
+        {% empty %}
+            <li>Нет файлов</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'upload_file' %}">Загрузить новый</a>
+</body>
+</html>
