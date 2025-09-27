@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+
+{% block title %}Посты{% endblock %}
+
+{% block content %}
+<h2>{% greetings %}</h2>
+<h1>{% greetings %} Все публикации</h1>
+
+{% for post in page_obj %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">
+        <a href="{{ post.get_absolute_url }}">
+          {{ post.title|truncatewords:10|shout }}
+        </a>
+      </h5>
+      <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+      <p class="card-text">
+        <small class="text-muted">Автор: {{ post.author.username }}</small>
+      </p>
+    </div>
+  </div>
+{% empty %}
+  <p>Постов нет.</p>
+{% endfor %}
+
+<nav>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+      </li>
+    {% endif %}
+    <li class="page-item disabled">
+      <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    </li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}

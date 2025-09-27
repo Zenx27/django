@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+<p><small>{{ post.created_at }}</small></p>
+<hr>
+<h4>Комментарии</h4>
+{% for comment in comments %}
+  <div class="mb-2"><b>{{ comment.author.username }}</b>: {{ comment.content }}</div>
+{% empty %}
+  <p>Нет комментариев</p>
+{% endfor %}
+{% if user.is_authenticated %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Добавить</button>
+</form>
+{% else %}
+<p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+{% endif %}
+{% endblock %}
